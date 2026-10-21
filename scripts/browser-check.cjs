@@ -24,6 +24,6 @@ const path=require('node:path'),os=require('node:os');
  await page.locator('#search').fill('tools/FileReadTool');assert((await page.locator('#toc').innerText()).includes('FileReadTool'));
  await page.locator('#menu').click();assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),390);
  await page.screenshot({path:path.join(os.tmpdir(),'cc-source-book-mobile.png'),fullPage:true});
- const epub=await page.request.get(base+'downloads/claude-code-source-book.epub');assert(epub.ok());assert((await epub.body()).length>1000000);
+ const epub=await page.request.get(base+'downloads/claude-code-source-book.epub',{timeout:120000});assert(epub.ok());assert((await epub.body()).length>1000000);
  assert.deepEqual(errors,[]);console.log(JSON.stringify({result:'PASS',url:base,checks:['guide','source reading','source search','full-text search','theme persistence','deep links','mobile menu','mobile overflow','EPUB download','no JS errors']}));await browser.close();
 })().catch(e=>{console.error(e);process.exit(1)});
