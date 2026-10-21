@@ -32,7 +32,16 @@ python3 -m http.server 8000 --directory site
 
 ## 验证
 
-`verify.py` 逐文件比较原始源码与在线数据、EPUB 分段重组结果，检查 XML、内部链接、EPUB spine 与收录清单。EPUB 还应使用 EPUBCheck 验证。网页功能通过实际浏览器检查。全文搜索按需加载约 30 MB 源码，在首次使用时可能较慢；仅在本地浏览器检索，不向第三方搜索引擎提交查询。
+`verify.py` 逐文件比较原始源码与在线数据、EPUB 分段重组结果，检查 XML、内部链接、EPUB spine 与收录清单。EPUB 还应使用 EPUBCheck 验证。网页功能通过实际浏览器检查。可选的浏览器复测（需 Node.js）：
+
+```sh
+npm install --no-save --package-lock=false playwright
+npx playwright install chromium
+# 另一个终端启动上面的本地 HTTP 服务后：
+BOOK_URL=http://localhost:8000/ node scripts/browser-check.cjs
+```
+
+`BOOK_URL` 也可设为公开站点地址，以核查实际部署。全文搜索按需加载约 30 MB 源码，在首次使用时可能较慢；仅在本地浏览器检索，不向第三方搜索引擎提交查询。
 
 ## 权利与来源
 

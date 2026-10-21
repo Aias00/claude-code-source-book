@@ -24,7 +24,13 @@ def main():
  for g in guides:
   missing=[p for p in g['paths'] if p not in known]
   if missing:raise ValueError(f"Invalid guide references: {g['id']}: {missing}")
- manifest=dict(title=TITLE,version='2.1.88',source='package/src-extracted/src',count=len(files),lines=sum(f['lines'] for f in files),bytes=sum(f['bytes'] for f in files),files=files)
+ shards=[]
+ for offset in range(0,len(files),32):
+  batch=files[offset:offset+32];name=f'search-{offset//32:03}.json'
+  records=[dict(id=f['id'],text=(ROOT/'source'/f['path']).read_bytes().decode('utf-8')) for f in batch]
+  (OUT/'data'/name).write_text(json.dumps(records,ensure_ascii=False))
+  shards.append(dict(path='data/'+name,ids=[f['id'] for f in batch]))
+ manifest=dict(searchShards=shards,title=TITLE,version='2.1.88',source='package/src-extracted/src',count=len(files),lines=sum(f['lines'] for f in files),bytes=sum(f['bytes'] for f in files),files=files)
  (OUT/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2))
  (OUT/'data/guides.json').write_text(json.dumps(guides,ensure_ascii=False))
  for p in (ROOT/'web').iterdir():shutil.copy(p,OUT/p.name)

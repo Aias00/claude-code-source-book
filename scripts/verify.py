@@ -29,5 +29,12 @@ with zipfile.ZipFile(SITE/'downloads/claude-code-source-book.epub') as z:
   assert ''.join(parts).encode()==raw,f['path']
  opf=docs['EPUB/package.opf'];ids={i.get('id') for i in opf.findall('o:manifest/o:item',ns)}
  assert all(i.get('idref') in ids for i in opf.findall('o:spine/o:itemref',ns))
+search_records={}
+for shard in m['searchShards']:
+ for record in json.loads((SITE/shard['path']).read_text()):
+  assert record['id'] not in search_records
+  search_records[record['id']]=record['text']
+assert set(search_records)=={f['id'] for f in m['files']}
+for f in m['files']:assert search_records[f['id']].encode()==(ROOT/'source'/f['path']).read_bytes()
 for f in ['index.html','app.js','style.css','data/guides.json','.nojekyll']:assert (SITE/f).exists()
 print(f"PASS: {len(expected)} source files byte-for-byte identical in website and EPUB; XML, local links, manifest and spine valid.")
