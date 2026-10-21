@@ -1,0 +1,26 @@
+{
+  "package_name": "@anthropic-ai/claude-code",
+  "package_version": "2.1.88",
+  "business_source_root": "package/src-extracted/src",
+  "business_files": 1902,
+  "source_map_entries": 4756,
+  "archive_authenticity": "Not independently authenticated against the official npm package",
+  "artifacts": {
+    "package.json": {
+      "bytes": 1272,
+      "sha256": "0fb4bb78f60c07760788a10f53a444d5c3b22228edd124772abe03d55f34ebe9"
+    },
+    "cli.js": {
+      "bytes": 13047043,
+      "sha256": "75c9611929d9a770fe2e3a393219d8b98f5de17fde539b2a7355c6db3fd2795f"
+    },
+    "cli.js.map": {
+      "bytes": 59766257,
+      "sha256": "7965012b7a5fc9e09d8d747a04c5c32b94696924536e217f686bb1e7ee70a657"
+    },
+    "LICENSE.md": {
+      "bytes": 147,
+      "sha256": "8ce94b9478bb9868f9641f818e06cd722fbe55d4c22e2d2ed11971b20146173a"
+    }
+  }
+}
